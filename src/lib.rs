@@ -387,6 +387,7 @@ macro_rules! bitfield {
     };
     ($(#[$attribute:meta])* $vis:vis struct $name:ident($t:ty); no default BitRange; $($rest:tt)*) => {
         $(#[$attribute])*
+        #[repr(transparent)]
         $vis struct $name(pub $t);
 
         impl $name {
