@@ -1,3 +1,7 @@
+This is a fork of https://github.com/dzamlo/rust-bitfield. It adds changes to be compatible with another fork (coming soon) of the regmap crate, making it useable for bitfield MMIO accesses
+
+
+
 rust-bitfield
 =============
 
