@@ -353,7 +353,6 @@ macro_rules! bitfield {
     };
     ($(#[$attribute:meta])* $vis:vis struct $name:ident([$t:ty]); no default BitRange; $($rest:tt)*) => {
         $(#[$attribute])*
-        #[derive(Clone, Copy)]
         #[repr(transparent)]
         $vis struct $name<T>(pub T);
 
