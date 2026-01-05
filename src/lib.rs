@@ -354,6 +354,7 @@ macro_rules! bitfield {
     ($(#[$attribute:meta])* $vis:vis struct $name:ident([$t:ty]); no default BitRange; $($rest:tt)*) => {
         $(#[$attribute])*
         #[repr(transparent)]
+        #[derive(Clone, Copy)]
         $vis struct $name<T>(pub T);
 
         //impl<T: AsMut<[$t]> + AsRef<[$t]>> $name<T> {

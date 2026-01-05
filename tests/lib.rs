@@ -628,7 +628,6 @@ fn test_debug() {
 }
 
 bitfield! {
-    #[derive(Clone, Copy)]
     struct ArrayBitfield([u8]);
     impl BitAnd;
     impl BitOr;
