@@ -365,6 +365,7 @@ macro_rules! bitfield {
         impl<T: AsMut<[$t]>> $name<T> {
            bitfield_fields!{only setter; $($rest)*}
         }
+        $crate::generate_copy!($name, $t);
     };
     ($(#[$attribute:meta])* $vis:vis struct $name:ident([$t:ty]); $($rest:tt)*) => {
         bitfield_bitrange!(struct $name([$t]));

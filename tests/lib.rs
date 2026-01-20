@@ -283,8 +283,15 @@ bitfield! {
 }
 
 bitfield! {
-    struct ABC(u8);
+    #[derive(PartialEq)]
+    pub struct EERD(u32);
+    impl Debug;
+    pub data, _: 31,16;
+    pub addr, set_addr: 15,2;
+    pub done, _: 1;
+    pub start, set_start: 0;
 }
+
 
 #[test]
 fn test_bitwise_ops() {
