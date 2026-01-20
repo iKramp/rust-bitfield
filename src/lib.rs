@@ -399,6 +399,21 @@ macro_rules! bitfield {
         bitfield_bitrange!(struct $name($t));
         bitfield!{$(#[$attribute])* $vis struct $name($t); no default BitRange; $($rest)*}
     };
+    (generate_copy, $t:ty, u8) => {
+        bitfield!(generate_copy)
+    };
+    (generate_copy, $t:ty, u16) => {
+        bitfield!(generate_copy)
+    };
+    (generate_copy, $t:ty, u32) => {
+        bitfield!(generate_copy)
+    };
+    (generate_copy, $t:ty, u64) => {
+        bitfield!(generate_copy)
+    };
+    (generate_copy) => {
+        #[derive(Copy, Clone)]
+    };
 }
 
 #[doc(hidden)]
