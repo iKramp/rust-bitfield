@@ -365,7 +365,7 @@ macro_rules! bitfield {
         impl<T: AsMut<[$t]>> $name<T> {
            bitfield_fields!{only setter; $($rest)*}
         }
-        $crate::generate_copy!($name, $t);
+        bitfield!(generate_copy, $name($t));
     };
     ($(#[$attribute:meta])* $vis:vis struct $name:ident([$t:ty]); $($rest:tt)*) => {
         bitfield_bitrange!(struct $name([$t]));
@@ -396,45 +396,19 @@ macro_rules! bitfield {
             bitfield_fields!{$t; $($rest)*}
         }
 
-        $crate::generate_copy!($name, $t);
+        bitfield!(generate_copy, $name($t));
     };
     ($(#[$attribute:meta])* $vis:vis struct $name:ident($t:ty); $($rest:tt)*) => {
         bitfield_bitrange!(struct $name($t));
         bitfield!{$(#[$attribute])* $vis struct $name($t); no default BitRange; $($rest)*}
     };
-}
 
-#[doc(hidden)]
-#[macro_export(local_inner_macros)]
-macro_rules! generate_copy {
-    ($type:ident, u8) => {
-        impl Copy for $type {}
-        impl Clone for $type {
-            fn clone(&self) -> $type { *self }
+    (generate_copy, $name:ident($t:ty)) => {
+        impl Copy for $name where $t: Copy {}
+        impl Clone for $name where $t: Copy {
+            fn clone(&self) -> Self { *self }
         }
     };
-    ($type:ident, u16) => {
-        impl Copy for $type {}
-        impl Clone for $type {
-            fn clone(&self) -> $type { *self }
-        }
-    };
-    ($type:ident, u32) => {
-        impl Copy for $type {}
-        impl Clone for $type {
-            fn clone(&self) -> $type { *self }
-        }
-    };
-    ($type:ident, u64) => {
-        impl Copy for $type {}
-        impl Clone for $type {
-            fn clone(&self) -> $type { *self }
-        }
-    };
-    
-
-    // fallback
-    ($type:ident, $t:ty) => {};
 }
 
 #[doc(hidden)]

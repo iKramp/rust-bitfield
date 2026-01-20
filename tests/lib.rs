@@ -43,7 +43,6 @@ impl TryFrom<u8> for EvenU8 {
 }
 
 bitfield! {
-    #[derive(Copy, Clone)]
     /// documentation comments also work!
     struct FooBar(u32);
     impl Debug;
@@ -270,7 +269,6 @@ fn lsb_msb_inverted_should_panic_on_access_4() {
 }
 
 bitfield! {
-    #[derive(Clone, Copy)]
     struct FourFields(u8);
     impl BitOr;
     impl BitAnd;
@@ -1459,7 +1457,6 @@ pub mod deny_missing_docs {
 }
 
 bitfield! {
-    #[derive(Copy, Clone)]
     /// documentation comments also work!
     struct FooBarSigned(i32);
     impl Debug;
