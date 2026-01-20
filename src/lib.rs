@@ -403,7 +403,8 @@ macro_rules! bitfield {
     };
 }
 
-#[macro_export]
+#[doc(hidden)]
+#[macro_export(local_inner_macros)]
 macro_rules! generate_copy {
     ($type:ident, u8) => {
         impl Copy for $type {}
