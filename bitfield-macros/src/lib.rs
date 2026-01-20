@@ -516,10 +516,10 @@ fn generate_setters(fields: &[BitfieldField]) -> proc_macro2::TokenStream {
                 BitfieldPosition::Bit(bit) => {
                     quote! {
                         #(#attrs)*
-                        #vis fn #setter(&mut self, value: bool) -> Self {
+                        #vis fn #setter(&mut self, value: bool) -> &mut Self {
                             use ::bitfield::BitMut;
                             self.set_bit(#bit, value);
-                            Self(self.0)
+                            self
                          }
                     }
                 }
@@ -528,10 +528,10 @@ fn generate_setters(fields: &[BitfieldField]) -> proc_macro2::TokenStream {
                     let ty_from = field.ty_from().unwrap();
                     quote! {
                         #(#attrs)*
-                        #vis fn #setter(&mut self, value: #ty_from) -> Self {
+                        #vis fn #setter(&mut self, value: #ty_from) -> &mut Self {
                             use ::bitfield::BitRangeMut;
                             self.set_bit_range(#msb, #lsb, ::bitfield::Into::<#ty>::into(value));
-                            Self(self.0)
+                            self
                          }
                     }
                 }
@@ -540,11 +540,11 @@ fn generate_setters(fields: &[BitfieldField]) -> proc_macro2::TokenStream {
                         let ty_from = field.ty_from().unwrap();
                         quote! {
                             #(#attrs)*
-                            #vis fn #setter(&mut self, index: usize, value: #ty_from) -> Self {
+                            #vis fn #setter(&mut self, index: usize, value: #ty_from) -> &mut Self {
                                 use ::bitfield::BitMut;
                                 debug_assert!(index < #count);;
                                 self.set_bit(#lsb+index, ::bitfield::Into::<bool>::into(value));
-                                Self(self.0)
+                                self
                              }
                         }
                     }
@@ -552,7 +552,7 @@ fn generate_setters(fields: &[BitfieldField]) -> proc_macro2::TokenStream {
                         let ty_from = field.ty_from().unwrap();
                         quote! {
                             #(#attrs)*
-                            #vis fn #setter(&mut self, index: usize, value: #ty_from) -> Self {
+                            #vis fn #setter(&mut self, index: usize, value: #ty_from) -> &mut Self {
                                 use ::bitfield::BitRangeMut;
                                 ::bitfield::check_msb_lsb_order!(#msb, #lsb);
                                 debug_assert!(index < #count);
@@ -562,7 +562,7 @@ fn generate_setters(fields: &[BitfieldField]) -> proc_macro2::TokenStream {
                                 let lsb = #lsb + index*width;
                                 let msb = lsb + width - 1;
                                 self.set_bit_range(msb, lsb, ::bitfield::Into::<#ty>::into(value));
-                                Self(self.0)
+                                self
                              }
                         }
                     }
