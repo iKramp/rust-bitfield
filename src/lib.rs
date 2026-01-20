@@ -432,7 +432,7 @@ macro_rules! generate_copy {
     
 
     // fallback
-    ($t:ty) => {};
+    ($type:ident($t:ty)) => {};
 }
 
 #[doc(hidden)]
