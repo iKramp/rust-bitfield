@@ -389,6 +389,7 @@ macro_rules! bitfield {
     ($(#[$attribute:meta])* $vis:vis struct $name:ident($t:ty); no default BitRange; $($rest:tt)*) => {
         $(#[$attribute])*
         #[repr(transparent)]
+        bitfield!(generate_copy, $t);
         $vis struct $name(pub $t);
 
         impl $name {
@@ -399,17 +400,23 @@ macro_rules! bitfield {
         bitfield_bitrange!(struct $name($t));
         bitfield!{$(#[$attribute])* $vis struct $name($t); no default BitRange; $($rest)*}
     };
+    (generate_copy, $t:ty) => {
+        bitfield!(generate_copy, t, u8);
+        bitfield!(generate_copy, t, u16);
+        bitfield!(generate_copy, t, u32);
+        bitfield!(generate_copy, t, u64);
+    };
     (generate_copy, $t:ty, u8) => {
-        bitfield!(generate_copy)
+        bitfield!(generate_copy);
     };
     (generate_copy, $t:ty, u16) => {
-        bitfield!(generate_copy)
+        bitfield!(generate_copy);
     };
     (generate_copy, $t:ty, u32) => {
-        bitfield!(generate_copy)
+        bitfield!(generate_copy);
     };
     (generate_copy, $t:ty, u64) => {
-        bitfield!(generate_copy)
+        bitfield!(generate_copy);
     };
     (generate_copy) => {
         #[derive(Copy, Clone)]
