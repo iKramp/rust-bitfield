@@ -395,7 +395,7 @@ macro_rules! bitfield {
             bitfield_fields!{$t; $($rest)*}
         }
 
-        generate_copy!($name, $t);
+        $crate::generate_copy!($name, $t);
     };
     ($(#[$attribute:meta])* $vis:vis struct $name:ident($t:ty); $($rest:tt)*) => {
         bitfield_bitrange!(struct $name($t));
