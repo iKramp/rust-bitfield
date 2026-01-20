@@ -395,7 +395,7 @@ macro_rules! bitfield {
             bitfield_fields!{$t; $($rest)*}
         }
 
-        generate_copy!($name($t));
+        generate_copy!($name, $t);
     };
     ($(#[$attribute:meta])* $vis:vis struct $name:ident($t:ty); $($rest:tt)*) => {
         bitfield_bitrange!(struct $name($t));
@@ -405,25 +405,25 @@ macro_rules! bitfield {
 
 #[macro_export(local_inner_macros)]
 macro_rules! generate_copy {
-    ($type:ident(u8)) => {
+    ($type:ident, u8) => {
         impl Copy for $type {}
         impl Clone for $type {
             fn clone(&self) -> $type { *self }
         }
     };
-    ($type:ident(u16)) => {
+    ($type:ident, u16) => {
         impl Copy for $type {}
         impl Clone for $type {
             fn clone(&self) -> $type { *self }
         }
     };
-    ($type:ident(u32)) => {
+    ($type:ident, u32) => {
         impl Copy for $type {}
         impl Clone for $type {
             fn clone(&self) -> $type { *self }
         }
     };
-    ($type:ident(u64)) => {
+    ($type:ident, u64) => {
         impl Copy for $type {}
         impl Clone for $type {
             fn clone(&self) -> $type { *self }
@@ -432,7 +432,7 @@ macro_rules! generate_copy {
     
 
     // fallback
-    ($type:ident($t:ty)) => {};
+    ($type:ident, $t:ty) => {};
 }
 
 #[doc(hidden)]
