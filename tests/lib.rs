@@ -282,6 +282,10 @@ bitfield! {
     d, set_d: 3;
 }
 
+bitfield! {
+    struct ABC(u8);
+}
+
 #[test]
 fn test_bitwise_ops() {
     let mut ff1 = FourFields(0);
